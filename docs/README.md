@@ -22,7 +22,7 @@ In addition, this project will include:
 
 This app will consist of a single white board area in the middle of the window that is 7x9 squares. Buttons at the bottom of the screen will be for resetting and restarting the game. Finally, links to the Github and LinkedIn will be at the top.
 
-[Wireframes](docs/wireframes)
+[Wireframes](./wireframes)
 
 ### Architecture and Technologies
 
