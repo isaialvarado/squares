@@ -51,7 +51,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 - Render a square grid to the `Canvas` using `Easel.js`
 - Make each square in the grid clickable, changing the position of the square on the grid
 
-**Day 3**: Make it so squares can push other squares and board recognizes when puzzle has been complete.
+**Day 3**: Make it so squares can push other squares and board recognizes when puzzle has been completed.
 
 
 **Day 4**: Install the controls for the user to interact with the game. Style the frontend, making it polished and professional. Goals for the day:
