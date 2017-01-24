@@ -1,14 +1,10 @@
 import createjs from 'createjs-easeljs';
-import moveableSquare from './shape';
+import { setupBoard } from './game';
+import Board from './board';
 
 document.addEventListener('DOMContentLoaded', () => {
-
   const stage = new createjs.Stage("canvas");
-  const red = new moveableSquare(100, 100, "red", "DOWN", stage);
-  const yellow = new moveableSquare(160, 100, "yellow", "RIGHT", stage);
-  const green = new moveableSquare(160, 160, "green", "UP", stage);
-
-
-  stage.addChild(red.shape(), yellow.shape(), green.shape());
-  stage.update();
+  const game = new Board();
+  setupBoard(stage, game);
+  window.game = game;
 });
