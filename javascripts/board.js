@@ -6,6 +6,7 @@ class Board {
   constructor() {
     this.squares = {};
     this.redirects = {};
+    this.goals = {};
   }
 
   addSquares(stage, ...squares) {
@@ -23,6 +24,12 @@ class Board {
   addRedirects(...redirects) {
     redirects.forEach(redirect => {
       this.redirects[[redirect.container.x, redirect.container.y]] = redirect;
+    });
+  }
+
+  addGoals(...goals) {
+    goals.forEach(goal => {
+      this.goals[[goal.container.x, goal.container.y]] = goal;
     });
   }
 

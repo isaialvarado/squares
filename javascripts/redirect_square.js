@@ -1,4 +1,3 @@
-import createjs from 'createjs-easeljs';
 import MoveableSquare from './moveable_square';
 
 class RedirectSquare extends MoveableSquare {

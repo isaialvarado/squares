@@ -6,20 +6,20 @@ class MoveableSquare {
   }
 
   setupSquare(x, y, color, direction) {
-    this.createSquare(x, y, color);
+    this.createSquare(color);
     this.createSquareText(direction);
     this.createContainer(x, y);
     this.changeDirection(direction);
   }
 
-  createSquare(x, y, color) {
+  createSquare(color) {
     this.square = new createjs.Shape();
     this.square.graphics.beginFill(color).drawRect(0, 0, 50, 50);
   }
 
   createSquareText(direction) {
     this.squareText = new createjs.Text();
-    this.squareText.font = "bold 25px 'Press Start 2P'";
+    this.squareText.font = "bold 25px Aerial";
     this.squareText.color = "black";
     this.squareText.x = 13;
     this.squareText.y = 14;
@@ -29,8 +29,8 @@ class MoveableSquare {
   createContainer(x, y) {
     this.container = new createjs.Container();
     this.container.addChild(this.square, this.squareText);
-    this.container.x = x;
-    this.container.y = y;
+    this.container.x = (x * 60) - 60;
+    this.container.y = (y * 60) - 60;
   }
 
   changeDirection(direction) {
@@ -62,10 +62,6 @@ class MoveableSquare {
   assignArrow(direction) {
     const arrows = { 'UP': "▲",'RIGHT': "▶", 'DOWN': "▼",'LEFT': "◀" };
     this.squareText.text = arrows[direction];
-  }
-
-  shape() {
-    return this.container;
   }
 
   move(x = this.xShift, y = this.yShift) {
