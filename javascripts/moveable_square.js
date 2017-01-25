@@ -13,6 +13,7 @@ class MoveableSquare {
   }
 
   createSquare(color) {
+    this.color = color;
     this.square = new createjs.Shape();
     this.square.graphics.beginFill(color).drawRect(0, 0, 50, 50);
   }

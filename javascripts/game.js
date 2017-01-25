@@ -3,16 +3,21 @@ import MoveableSquare from './moveable_square';
 import RedirectSquare from './redirect_square';
 import GoalSquare from './goal_square';
 
+export const setupGame = (stage, board) => {
+  setupLevel1(stage, board);
+  setupUserButtons(stage, board);
+};
+
 export const setupLevel1 = (stage, board) => {
-  const red = new MoveableSquare(3, 3, "red", "RIGHT");
-  const yellow = new MoveableSquare(4, 3, "yellow", "DOWN");
+  const red = new MoveableSquare(5, 3, "red", "RIGHT");
+  const yellow = new MoveableSquare(4, 3, "yellow", "UP");
   const green = new MoveableSquare(4, 4, "green", "RIGHT");
 
-  const redGoal = new GoalSquare(7, 3, "red");
+  const redGoal = new GoalSquare(6, 3, "red");
   const yellowGoal = new GoalSquare(4, 2, "yellow");
-  const greenGoal = new GoalSquare(5, 2, "green");
+  const greenGoal = new GoalSquare(5, 4, "green");
 
-  const redirect1 = new RedirectSquare(4, 7, "UP");
+  const redirect1 = new RedirectSquare(4, 5, "UP");
 
   board.addSquares(stage, red, yellow, green);
   board.addRedirects(redirect1);
@@ -41,6 +46,8 @@ export const setupUserButtons = (stage, board) => {
 
   restartButton.addEventListener("click", () => {
     stage.removeAllChildren();
+    stage.enableDOMEvents(true);
+    board.clearBoard();
     setupLevel1(stage, board);
   });
 

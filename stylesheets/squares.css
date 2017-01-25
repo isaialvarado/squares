@@ -23,7 +23,18 @@ body {
   margin: 0 20px;
 }
 
+#undo {
+  background-color: red;
+  color: white;
+}
+
+#restart {
+  background-color: blue;
+  color: white;
+}
+
 canvas {
-  border: 1px solid black;
+  border: 1px solid lightgray;
+  border-radius: 4px;
   margin: 0 auto;
 }

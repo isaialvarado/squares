@@ -6,7 +6,7 @@ class Board {
   constructor() {
     this.squares = {};
     this.redirects = {};
-    this.goals = {};
+    this.goals = [];
   }
 
   addSquares(stage, ...squares) {
@@ -29,7 +29,7 @@ class Board {
 
   addGoals(...goals) {
     goals.forEach(goal => {
-      this.goals[[goal.container.x, goal.container.y]] = goal;
+      this.goals.push(goal);
     });
   }
 
@@ -45,8 +45,8 @@ class Board {
       let neighbor = this.squares[[newX, newY]];
       let redirect = this.redirects[[newX, newY]];
 
-      squareToMove.move(xShift, yShift);
-      this.squares[[newX, newY]] = squareToMove;
+      squareToMove.move(xShift, yShift); //move square
+      this.squares[[newX, newY]] = squareToMove; //update board position
 
       if (redirect && squareToMove.direction !== redirect.direction) {
         squareToMove.changeDirection(redirect.direction);
@@ -59,6 +59,56 @@ class Board {
       }
     }
     stage.update();
+    this.gameOver(stage);
+  }
+
+  gameOver(stage) {
+    const squares = this.squares;
+    const gameOver = (
+      this.goals.every(goal => {
+        return squares[goal.coordinates()]
+          && goal.color === squares[goal.coordinates()].color;
+      })
+    );
+
+    if (gameOver) {
+      this.congratulatePlayer(stage);
+      stage.enableDOMEvents(false);
+      this.clearBoard();
+    }
+  }
+
+  clearBoard() {
+    this.squares = {};
+    this.redirects = {};
+    this.goals = [];
+  }
+
+  congratulatePlayer(stage) {
+    const winningMessage = this.winningMessage(stage);
+    stage.addChild(winningMessage);
+    stage.update();
+  }
+
+  winningMessage(stage) {
+    const msg = new createjs.Text(
+      "Level Complete!",
+      "bold 25px 'Press Start 2P'",
+      "blue"
+    );
+    const msgBounds = msg.getBounds();
+    msg.y = 4;
+    const msgBox = new createjs.Shape();
+    msgBox.graphics
+      .beginFill("firebrick")
+      .drawRect(0, 0, msgBounds.width, msgBounds.height);
+
+    const msgContainer = new createjs.Container();
+    msgContainer.x = (stage.canvas.width / 2) - (msgBounds.width / 2);
+    msgContainer.y = (stage.canvas.height / 3) - (msgBounds.height / 2);
+
+    msgContainer.addChild(msgBox, msg);
+    return msgContainer;
   }
 
   undo() {

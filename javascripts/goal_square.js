@@ -11,6 +11,7 @@ class GoalSquare {
   }
 
   createCircle(color) {
+    this.color = color;
     this.circle = new createjs.Shape();
     this.circle.graphics.beginFill(color).drawCircle(25, 25, 25);
   }
@@ -22,8 +23,8 @@ class GoalSquare {
     this.container.y = (y * 60) - 60;
   }
 
-  shape() {
-    return this.container;
+  coordinates() {
+    return [this.container.x, this.container.y];
   }
 }
 
