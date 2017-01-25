@@ -6,27 +6,29 @@ class Board {
     this.board = {};
   }
 
-  addShape(shape, stage) {
-    this.board[[shape.x, shape.y]] = shape;
-    shape.container.addEventListener(
-      "click",
-      () =>  {
-        this.update(shape, stage);
-      }
-    );
+  addShape(stage, ...shapes) {
+    shapes.forEach(shape => {
+      this.board[[shape.container.x, shape.container.y]] = shape;
+      shape.container.addEventListener(
+        "click",
+        () =>  {
+          this.update(shape, stage);
+        }
+      );
+    });
   }
 
   update(shape, stage) {
+    delete this.board[[shape.container.x, shape.container.y]];
     shape.move();
-    const x = shape.container.x;
-    const y = shape.container.y;
+    const neighbor = this.board[[shape.container.x, shape.container.y]];
 
-    const neighbor = this.board[[x, y]];
     if (neighbor && neighbor instanceof MoveableSquare) {
-      neighbor.move(x, y);
-      this.board[[x + x, y + y]] = neighbor;
+      neighbor.move(shape.xShift, shape.yShift);
+      this.board[[neighbor.container.x, neighbor.container.y]] = neighbor;
     }
-    this.board[[x , y]] = shape;
+
+    this.board[[shape.container.x, shape.container.y]] = shape;
     stage.update();
   }
 }

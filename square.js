@@ -12,10 +12,6 @@ class MoveableSquare {
     this.assignDirection(direction);
   }
 
-  addToBoard(board) {
-    board.addShape(this);
-  }
-
   createSquare(x, y, color) {
     this.square = new createjs.Shape();
     this.square.graphics.beginFill(color).drawRect(0, 0, 50, 50);
@@ -41,20 +37,20 @@ class MoveableSquare {
     this.direction = direction;
     switch (direction) {
       case 'UP':
-        this.xDirection = 0;
-        this.yDirection = -60;
+        this.xShift = 0;
+        this.yShift = -60;
         break;
       case 'RIGHT':
-      this.xDirection = 60;
-      this.yDirection = 0;
+      this.xShift = 60;
+      this.yShift = 0;
         break;
       case 'DOWN':
-      this.xDirection = 0;
-      this.yDirection = 60;
+      this.xShift = 0;
+      this.yShift = 60;
         break;
       case 'LEFT':
-      this.xDirection = -60;
-      this.yDirection = 0;
+      this.xShift = -60;
+      this.yShift = 0;
         break;
       default:
         return;
@@ -72,7 +68,7 @@ class MoveableSquare {
     return this.container;
   }
 
-  move(x = this.xDirection, y = this.yDirection) {
+  move(x = this.xShift, y = this.yShift) {
     this.container.x += x;
     this.container.y += y;
   }
