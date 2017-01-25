@@ -9,7 +9,7 @@ class MoveableSquare {
     this.createSquare(x, y, color);
     this.createSquareText(direction);
     this.createContainer(x, y);
-    this.assignDirection(direction);
+    this.changeDirection(direction);
   }
 
   createSquare(x, y, color) {
@@ -33,7 +33,7 @@ class MoveableSquare {
     this.container.y = y;
   }
 
-  assignDirection(direction) {
+  changeDirection(direction) {
     this.direction = direction;
     switch (direction) {
       case 'UP':
