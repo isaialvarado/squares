@@ -3,6 +3,8 @@ import createjs from 'createjs-easeljs';
 class MoveableSquare {
   constructor(x, y, color, direction) {
     this.setupSquare(x, y, color, direction);
+    this.moves = { 0: [this.container.x, this.container.y, this.direction] };
+    this.moveNums = [0];
   }
 
   setupSquare(x, y, color, direction) {
@@ -65,9 +67,37 @@ class MoveableSquare {
     this.squareText.text = arrows[direction];
   }
 
-  move(x = this.xShift, y = this.yShift) {
+  coordinates() {
+    return [this.container.x, this.container.y];
+  }
+
+  move(x = this.xShift, y = this.yShift, moveNum) {
     this.container.x += x;
     this.container.y += y;
+    this.moveNums.push(moveNum);
+    this.moves[moveNum] =
+      [this.container.x, this.container.y, this.direction];
+  }
+
+  undo(moveNum) {
+    const currentMoves = this.moves[moveNum];
+
+    if (currentMoves === undefined) {
+      return false;
+    }
+
+    this.moveNums.pop();
+    const lastMoves = this.moves[this.moveNums[this.moveNums.length - 1]];
+
+    this.container.x = lastMoves[0];
+    this.container.y = lastMoves[1];
+
+    if (lastMoves[2] !== this.direction) {
+      this.changeDirection(lastMoves[2]);
+    }
+
+    delete this.moves[moveNum];
+    return true;
   }
 }
 

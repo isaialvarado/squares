@@ -7,6 +7,7 @@ class Board {
     this.squares = {};
     this.redirects = {};
     this.goals = [];
+    this.moveCount = 0;
   }
 
   addSquares(stage, ...squares) {
@@ -34,6 +35,7 @@ class Board {
   }
 
   handleMove(square, stage) {
+    this.moveCount += 1;
     let squareToMove = square;
     const xShift = square.xShift;
     const yShift = square.yShift;
@@ -45,12 +47,12 @@ class Board {
       let neighbor = this.squares[[newX, newY]];
       let redirect = this.redirects[[newX, newY]];
 
-      squareToMove.move(xShift, yShift); //move square
-      this.squares[[newX, newY]] = squareToMove; //update board position
-
       if (redirect && squareToMove.direction !== redirect.direction) {
         squareToMove.changeDirection(redirect.direction);
       }
+
+      squareToMove.move(xShift, yShift, this.moveCount); //move square
+      this.squares[[newX, newY]] = squareToMove; //update board position
 
       if (neighbor) {
         squareToMove = neighbor;
@@ -86,6 +88,7 @@ class Board {
 
   congratulatePlayer(stage) {
     const winningMessage = this.winningMessage(stage);
+    this.moveCount = 0;
     stage.addChild(winningMessage);
     stage.update();
   }
@@ -112,7 +115,20 @@ class Board {
   }
 
   undo() {
-    alert("lol doesn't work yet");
+    if (this.moveCount === 0) {
+      return;
+    } else {
+      const squares = this.squares;
+
+      for (let coordinates in squares) {
+        let square = squares[coordinates];
+        if (square.undo(this.moveCount)) {
+          delete this.squares[coordinates];
+          this.squares[square.coordinates()] = square;
+        }
+      }
+      this.moveCount -= 1;
+    }
   }
 }
 

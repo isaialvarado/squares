@@ -51,5 +51,8 @@ export const setupUserButtons = (stage, board) => {
     setupLevel1(stage, board);
   });
 
-  undoButton.addEventListener("click", () => board.undo());
+  undoButton.addEventListener("click", () => {
+    board.undo();
+    stage.update();
+  });
 };
