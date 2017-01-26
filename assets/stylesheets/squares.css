@@ -14,10 +14,10 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-.user-controls button {
+button {
   font-family: 'Press Start 2P', cursive;
   font-size: 25px;
   margin: 0 20px;
@@ -31,6 +31,12 @@ body {
 #restart {
   background-color: blue;
   color: white;
+}
+
+#instructions {
+  background-color: black;
+  color: white;
+  margin-top: 10px;
 }
 
 canvas {

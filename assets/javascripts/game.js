@@ -49,6 +49,7 @@ export const setupLevel1 = (stage, board) => {
 export const setupUserButtons = (stage, board) => {
   const restartButton = document.getElementById("restart");
   const undoButton = document.getElementById("undo");
+  const instructionButton = document.getElementById("instructions");
 
   restartButton.addEventListener("click", () => {
     stage.removeAllChildren();
@@ -61,4 +62,8 @@ export const setupUserButtons = (stage, board) => {
     board.undo();
     stage.update();
   });
+
+  instructionButton.addEventListener("click", () => (
+    alert("Goal: Click on squares and move them to their respective circle\n\nTip 1: Squares can push other squares\n\nTip 2: Black arrows on the board change a square's direction")
+  ));
 };
