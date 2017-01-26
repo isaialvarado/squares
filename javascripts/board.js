@@ -7,6 +7,7 @@ class Board {
     this.squares = {};
     this.redirects = {};
     this.goals = [];
+    this.moves = {};
     this.moveCount = 0;
     this.coordinatesOflastSquareMoved = [];
   }
@@ -37,12 +38,14 @@ class Board {
 
   handleMove(square, stage) {
     this.moveCount += 1;
+    this.moves[this.moveCount] = [];
     let squareToMove = square;
     const xShift = square.xShift;
     const yShift = square.yShift;
     delete this.squares[[square.container.x, square.container.y]];
 
     while (true) {
+      this.moves[this.moveCount].push(squareToMove);
       let newX = squareToMove.container.x + xShift;
       let newY = squareToMove.container.y + yShift;
       let neighbor = this.squares[[newX, newY]];
@@ -52,7 +55,7 @@ class Board {
         squareToMove.changeDirection(redirect.direction);
       }
 
-      squareToMove.move(xShift, yShift, this.moveCount); //move square
+      squareToMove.move(xShift, yShift); //move square
       this.squares[[newX, newY]] = squareToMove; //update board position
 
       if (neighbor) {
@@ -120,20 +123,14 @@ class Board {
     if (this.moveCount === 0) {
       return;
     } else {
-      const squaresToAdd = [];
-      const coordinatesToAdd = [];
+      const squares = this.moves[this.moveCount];
 
-      for (let coordinates in this.squares) {
-        let square = this.squares[coordinates];
-        if (square.undo(this.moveCount)) {
-          squaresToAdd.push(square);
-          coordinatesToAdd.push(square.coordinates());
-        }
-      }
-      for (let i = 0; i < squaresToAdd.length; i++) {
-        this.squares[coordinatesToAdd[i]] = squaresToAdd[i];
-      }
+      squares.forEach(square => {
+        square.undo(this.moveCount);
+        this.squares[square.coordinates()] = square;
+      });
 
+      delete this.moves[this.moveCount];
       delete this.squares[this.coordinatesOflastSquareMoved.pop()];
       this.moveCount -= 1;
     }
