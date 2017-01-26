@@ -126,12 +126,12 @@
 	
 	var setupLevel1 = exports.setupLevel1 = function setupLevel1(stage, board) {
 	  var s1 = new _moveable_square2.default(2, 4, "green", "RIGHT");
-	  var s2 = new _moveable_square2.default(1, 5, "orange", "RIGHT");
-	  var s3 = new _moveable_square2.default(3, 5, "purple", "UP");
+	  var s2 = new _moveable_square2.default(1, 5, "blue", "RIGHT");
+	  var s3 = new _moveable_square2.default(3, 5, "red", "UP");
 	
 	  var g1 = new _goal_square2.default(5, 5, "green");
-	  var g2 = new _goal_square2.default(2, 5, "orange");
-	  var g3 = new _goal_square2.default(3, 2, "purple");
+	  var g2 = new _goal_square2.default(2, 5, "blue");
+	  var g3 = new _goal_square2.default(3, 2, "red");
 	
 	  var r1 = new _redirect_square2.default(3, 3, "DOWN");
 	  var r2 = new _redirect_square2.default(3, 6, "UP");

@@ -10,12 +10,12 @@ export const setupGame = (stage, board) => {
 
 export const setupLevel1 = (stage, board) => {
   const s1 = new MoveableSquare(2, 4, "green", "RIGHT");
-  const s2 = new MoveableSquare(1, 5, "orange", "RIGHT");
-  const s3 = new MoveableSquare(3, 5, "purple", "UP");
+  const s2 = new MoveableSquare(1, 5, "blue", "RIGHT");
+  const s3 = new MoveableSquare(3, 5, "red", "UP");
 
   const g1 = new GoalSquare(5, 5, "green");
-  const g2 = new GoalSquare(2, 5, "orange");
-  const g3 = new GoalSquare(3, 2, "purple");
+  const g2 = new GoalSquare(2, 5, "blue");
+  const g3 = new GoalSquare(3, 2, "red");
 
   const r1 = new RedirectSquare(3, 3, "DOWN");
   const r2 = new RedirectSquare(3, 6, "UP");
