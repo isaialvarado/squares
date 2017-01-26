@@ -125,13 +125,13 @@
 	};
 	
 	var setupLevel1 = exports.setupLevel1 = function setupLevel1(stage, board) {
-	  var s1 = new _moveable_square2.default(2, 4, "forestgreen", "RIGHT");
-	  var s2 = new _moveable_square2.default(1, 5, "goldenrod", "RIGHT");
-	  var s3 = new _moveable_square2.default(3, 5, "dimgrey", "UP");
+	  var s1 = new _moveable_square2.default(2, 4, "green", "RIGHT");
+	  var s2 = new _moveable_square2.default(1, 5, "orange", "RIGHT");
+	  var s3 = new _moveable_square2.default(3, 5, "purple", "UP");
 	
-	  var g1 = new _goal_square2.default(5, 5, "forestgreen");
-	  var g2 = new _goal_square2.default(2, 5, "goldenrod");
-	  var g3 = new _goal_square2.default(3, 2, "dimgrey");
+	  var g1 = new _goal_square2.default(5, 5, "green");
+	  var g2 = new _goal_square2.default(2, 5, "orange");
+	  var g3 = new _goal_square2.default(3, 2, "purple");
 	
 	  var r1 = new _redirect_square2.default(3, 3, "DOWN");
 	  var r2 = new _redirect_square2.default(3, 6, "UP");
