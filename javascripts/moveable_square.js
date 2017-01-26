@@ -1,15 +1,15 @@
 import createjs from 'createjs-easeljs';
 
 class MoveableSquare {
-  constructor(x, y, color, direction) {
-    this.setupSquare(x, y, color, direction);
+  constructor(x, y, color, direction, type) {
+    this.setupSquare(x, y, color, direction, type);
     this.moves = { 0: [this.container.x, this.container.y, this.direction] };
     this.moveNums = [0];
   }
 
-  setupSquare(x, y, color, direction) {
+  setupSquare(x, y, color, direction, type) {
     this.createSquare(color);
-    this.createSquareText(direction);
+    this.createSquareText(direction, type);
     this.createContainer(x, y);
     this.changeDirection(direction);
   }
@@ -17,23 +17,27 @@ class MoveableSquare {
   createSquare(color) {
     this.color = color;
     this.square = new createjs.Shape();
-    this.square.graphics.beginFill(color).drawRect(0, 0, 50, 50);
+    this.square.graphics.beginFill(color).drawRect(0, 0, 70, 70);
   }
 
-  createSquareText(direction) {
+  createSquareText(direction, type) {
     this.squareText = new createjs.Text();
-    this.squareText.font = "bold 25px Aerial";
-    this.squareText.color = "black";
-    this.squareText.x = 13;
-    this.squareText.y = 14;
+    this.squareText.font = "bold 30px Aerial";
+    if (type === 'redirect') {
+      this.squareText.color = "black";
+    } else {
+      this.squareText.color = "white";
+    }
+    this.squareText.x = 20;
+    this.squareText.y = 20;
     this.assignArrow();
   }
 
   createContainer(x, y) {
     this.container = new createjs.Container();
     this.container.addChild(this.square, this.squareText);
-    this.container.x = (x * 60) - 60;
-    this.container.y = (y * 60) - 60;
+    this.container.x = (x * 80) - 80;
+    this.container.y = (y * 80) - 80;
   }
 
   changeDirection(direction) {
@@ -41,18 +45,18 @@ class MoveableSquare {
     switch (direction) {
       case 'UP':
         this.xShift = 0;
-        this.yShift = -60;
+        this.yShift = -80;
         break;
       case 'RIGHT':
-      this.xShift = 60;
+      this.xShift = 80;
       this.yShift = 0;
         break;
       case 'DOWN':
       this.xShift = 0;
-      this.yShift = 60;
+      this.yShift = 80;
         break;
       case 'LEFT':
-      this.xShift = -60;
+      this.xShift = -80;
       this.yShift = 0;
         break;
       default:

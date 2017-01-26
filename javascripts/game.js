@@ -9,34 +9,40 @@ export const setupGame = (stage, board) => {
 };
 
 export const setupLevel1 = (stage, board) => {
-  const red = new MoveableSquare(5, 3, "red", "RIGHT");
-  const yellow = new MoveableSquare(4, 3, "yellow", "UP");
-  const green = new MoveableSquare(4, 4, "green", "RIGHT");
+  const s1 = new MoveableSquare(2, 4, "forestgreen", "RIGHT");
+  const s2 = new MoveableSquare(1, 5, "goldenrod", "RIGHT");
+  const s3 = new MoveableSquare(3, 5, "dimgrey", "UP");
 
-  const redGoal = new GoalSquare(6, 3, "red");
-  const yellowGoal = new GoalSquare(4, 2, "yellow");
-  const greenGoal = new GoalSquare(5, 4, "green");
+  const g1 = new GoalSquare(5, 5, "forestgreen");
+  const g2 = new GoalSquare(2, 5, "goldenrod");
+  const g3 = new GoalSquare(3, 2, "dimgrey");
 
-  const redirect1 = new RedirectSquare(4, 5, "UP");
+  const r1 = new RedirectSquare(3, 3, "DOWN");
+  const r2 = new RedirectSquare(3, 6, "UP");
+  const r3 = new RedirectSquare(4, 5, "LEFT");
 
-  board.addSquares(stage, red, yellow, green);
-  board.addRedirects(redirect1);
-  board.addGoals(redGoal, yellowGoal, greenGoal);
+  board.addSquares(stage, s1, s2, s3);
+  board.addRedirects(r1, r2, r3);
+  board.addGoals(g1, g2, g3);
 
   stage.addChild(
-    red.container,
-    yellow.container,
-    green.container,
-    redGoal.container,
-    yellowGoal.container,
-    greenGoal.container,
-    redirect1.container
+    s1.container,
+    s2.container,
+    s3.container,
+    g1.container,
+    g2.container,
+    g3.container,
+    r1.container,
+    r2.container,
+    r3.container
   );
 
-  stage.setChildIndex(redirect1.container, 0);
-  stage.setChildIndex(redGoal.container, 0);
-  stage.setChildIndex(yellowGoal.container, 0);
-  stage.setChildIndex(greenGoal.container, 0);
+  stage.setChildIndex(r1.container, 0);
+  stage.setChildIndex(r2.container, 0);
+  stage.setChildIndex(r3.container, 0);
+  stage.setChildIndex(g1.container, 0);
+  stage.setChildIndex(g2.container, 0);
+  stage.setChildIndex(g3.container, 0);
   stage.update();
 };
 

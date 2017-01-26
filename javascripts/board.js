@@ -8,6 +8,7 @@ class Board {
     this.redirects = {};
     this.goals = [];
     this.moveCount = 0;
+    this.coordinatesOflastSquareMoved = [];
   }
 
   addSquares(stage, ...squares) {
@@ -60,6 +61,7 @@ class Board {
         break;
       }
     }
+    this.coordinatesOflastSquareMoved.push(squareToMove.coordinates());
     stage.update();
     this.gameOver(stage);
   }
@@ -118,15 +120,21 @@ class Board {
     if (this.moveCount === 0) {
       return;
     } else {
-      const squares = this.squares;
+      const squaresToAdd = [];
+      const coordinatesToAdd = [];
 
-      for (let coordinates in squares) {
-        let square = squares[coordinates];
+      for (let coordinates in this.squares) {
+        let square = this.squares[coordinates];
         if (square.undo(this.moveCount)) {
-          delete this.squares[coordinates];
-          this.squares[square.coordinates()] = square;
+          squaresToAdd.push(square);
+          coordinatesToAdd.push(square.coordinates());
         }
       }
+      for (let i = 0; i < squaresToAdd.length; i++) {
+        this.squares[coordinatesToAdd[i]] = squaresToAdd[i];
+      }
+
+      delete this.squares[this.coordinatesOflastSquareMoved.pop()];
       this.moveCount -= 1;
     }
   }
