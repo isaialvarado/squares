@@ -3,9 +3,6 @@ node_modules/
 .DS_Store
 npm-debug.log
 
-# Ignore bundler config.
-/.bundle
-
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
