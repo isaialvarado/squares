@@ -13,7 +13,7 @@ class GoalSquare {
   createCircle(color) {
     this.color = color;
     this.circle = new createjs.Shape();
-    this.circle.graphics.beginFill(color).drawCircle(35, 35, 35);
+    this.circle.graphics.beginFill(color).drawCircle(35, 35, 25);
   }
 
   createContainer(x, y) {
