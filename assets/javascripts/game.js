@@ -10,15 +10,6 @@ export const setupGame = (stage, board) => {
 };
 
 export const setupLevel1 = (stage, board) => {
-<<<<<<< HEAD
-  const s1 = new MoveableSquare(2, 4, "green", "RIGHT");
-  const s2 = new MoveableSquare(1, 5, "blue", "RIGHT");
-  const s3 = new MoveableSquare(3, 5, "red", "UP");
-
-  const g1 = new GoalSquare(5, 5, "green");
-  const g2 = new GoalSquare(2, 5, "blue");
-  const g3 = new GoalSquare(3, 2, "red");
-=======
   const s1 = new MoveableSquare(2, 3, "#B5D8EB", "DOWN");
   const s2 = new MoveableSquare(4, 3, "#D1F2A5", "DOWN");
   const s3 = new MoveableSquare(2, 5, "#F56991", "UP");
@@ -28,7 +19,6 @@ export const setupLevel1 = (stage, board) => {
   const g2 = new GoalSquare(3, 5, "#D1F2A5");
   const g3 = new GoalSquare(5, 5, "#F56991");
   const g4 = new GoalSquare(3, 6, "#FDAE84");
->>>>>>> gh-pages
 
   const r1 = new RedirectSquare(2, 4, "RIGHT");
   const r2 = new RedirectSquare(3, 3, "DOWN");
