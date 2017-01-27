@@ -50,7 +50,7 @@
 	
 	var _createjsEaseljs2 = _interopRequireDefault(_createjsEaseljs);
 	
-	var _game = __webpack_require__(2);
+	var _game = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./game\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	var _board = __webpack_require__(6);
 	
@@ -91,90 +91,7 @@
 	}.call(window));
 
 /***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.setupUserButtons = exports.setupLevel1 = exports.setupGame = undefined;
-	
-	var _createjsEaseljs = __webpack_require__(1);
-	
-	var _createjsEaseljs2 = _interopRequireDefault(_createjsEaseljs);
-	
-	var _moveable_square = __webpack_require__(3);
-	
-	var _moveable_square2 = _interopRequireDefault(_moveable_square);
-	
-	var _redirect_square = __webpack_require__(4);
-	
-	var _redirect_square2 = _interopRequireDefault(_redirect_square);
-	
-	var _goal_square = __webpack_require__(5);
-	
-	var _goal_square2 = _interopRequireDefault(_goal_square);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var setupGame = exports.setupGame = function setupGame(stage, board) {
-	  setupLevel1(stage, board);
-	  setupUserButtons(stage, board);
-	};
-	
-	var setupLevel1 = exports.setupLevel1 = function setupLevel1(stage, board) {
-	  var s1 = new _moveable_square2.default(2, 4, "green", "RIGHT");
-	  var s2 = new _moveable_square2.default(1, 5, "blue", "RIGHT");
-	  var s3 = new _moveable_square2.default(3, 5, "red", "UP");
-	
-	  var g1 = new _goal_square2.default(5, 5, "green");
-	  var g2 = new _goal_square2.default(2, 5, "blue");
-	  var g3 = new _goal_square2.default(3, 2, "red");
-	
-	  var r1 = new _redirect_square2.default(3, 3, "DOWN");
-	  var r2 = new _redirect_square2.default(3, 6, "UP");
-	  var r3 = new _redirect_square2.default(4, 5, "LEFT");
-	
-	  board.addSquares(stage, s1, s2, s3);
-	  board.addRedirects(r1, r2, r3);
-	  board.addGoals(g1, g2, g3);
-	
-	  stage.addChild(s1.container, s2.container, s3.container, g1.container, g2.container, g3.container, r1.container, r2.container, r3.container);
-	
-	  stage.setChildIndex(r1.container, 0);
-	  stage.setChildIndex(r2.container, 0);
-	  stage.setChildIndex(r3.container, 0);
-	  stage.setChildIndex(g1.container, 0);
-	  stage.setChildIndex(g2.container, 0);
-	  stage.setChildIndex(g3.container, 0);
-	  stage.update();
-	};
-	
-	var setupUserButtons = exports.setupUserButtons = function setupUserButtons(stage, board) {
-	  var restartButton = document.getElementById("restart");
-	  var undoButton = document.getElementById("undo");
-	  var instructionButton = document.getElementById("instructions");
-	
-	  restartButton.addEventListener("click", function () {
-	    stage.removeAllChildren();
-	    stage.enableDOMEvents(true);
-	    board.clearBoard();
-	    setupLevel1(stage, board);
-	  });
-	
-	  undoButton.addEventListener("click", function () {
-	    board.undo();
-	    stage.update();
-	  });
-	
-	  instructionButton.addEventListener("click", function () {
-	    return alert("Goal: Click on squares and move them to their respective circle\n\nTip 1: Squares can push other squares\n\nTip 2: Black arrows on the board change a square's direction");
-	  });
-	};
-
-/***/ },
+/* 2 */,
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -345,66 +262,7 @@
 	exports.default = RedirectSquare;
 
 /***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _createjsEaseljs = __webpack_require__(1);
-	
-	var _createjsEaseljs2 = _interopRequireDefault(_createjsEaseljs);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var GoalSquare = function () {
-	  function GoalSquare(x, y, color) {
-	    _classCallCheck(this, GoalSquare);
-	
-	    this.setupCircle(x, y, color);
-	  }
-	
-	  _createClass(GoalSquare, [{
-	    key: 'setupCircle',
-	    value: function setupCircle(x, y, color) {
-	      this.createCircle(color);
-	      this.createContainer(x, y);
-	    }
-	  }, {
-	    key: 'createCircle',
-	    value: function createCircle(color) {
-	      this.color = color;
-	      this.circle = new _createjsEaseljs2.default.Shape();
-	      this.circle.graphics.beginFill(color).drawCircle(35, 35, 35);
-	    }
-	  }, {
-	    key: 'createContainer',
-	    value: function createContainer(x, y) {
-	      this.container = new _createjsEaseljs2.default.Container();
-	      this.container.addChild(this.circle);
-	      this.container.x = x * 80 - 80;
-	      this.container.y = y * 80 - 80;
-	    }
-	  }, {
-	    key: 'coordinates',
-	    value: function coordinates() {
-	      return [this.container.x, this.container.y];
-	    }
-	  }]);
-	
-	  return GoalSquare;
-	}();
-	
-	exports.default = GoalSquare;
-
-/***/ },
+/* 5 */,
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -552,11 +410,10 @@
 	  }, {
 	    key: 'winningMessage',
 	    value: function winningMessage(stage) {
-	      var msg = new _createjsEaseljs2.default.Text("Level Complete!", "bold 25px 'Press Start 2P'", "blue");
+	      var msg = new _createjsEaseljs2.default.Text("Level Complete!", "bold 35px 'Allerta Stencil'", "black");
 	      var msgBounds = msg.getBounds();
-	      msg.y = 4;
 	      var msgBox = new _createjsEaseljs2.default.Shape();
-	      msgBox.graphics.beginFill("firebrick").drawRect(0, 0, msgBounds.width, msgBounds.height);
+	      msgBox.graphics.beginFill("#EFFAB4").drawRect(0, 0, msgBounds.width, msgBounds.height + 8);
 	
 	      var msgContainer = new _createjsEaseljs2.default.Container();
 	      msgContainer.x = stage.canvas.width / 2 - msgBounds.width / 2;
