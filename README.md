@@ -7,7 +7,7 @@ The goal of the game is to move each colored square onto their same-colored circ
 [live]: https://isaialvarado.github.io/squares/squares.html
 ## Motivation
 
-I admire the simplicity and fun factor of these types of grid-based puzzles, and therefore wanted to recreate one on my own. I submitted this as my [App Academy](https://www.appacademy.io/) JavaScript project.
+I admire the simplicity and fun factor of these types of grid-based puzzles; therefore, I wanted to recreate one on my own. I submitted this as my [App Academy](https://www.appacademy.io/) JavaScript project.
 
 ## Features
 
@@ -28,7 +28,7 @@ I admire the simplicity and fun factor of these types of grid-based puzzles, and
 
 ###### Undo Functionality
 
-Board class has undo method. It retrieves all squares moved during the last move from its moves object. Then, each square has its own undo method to update its own coordinates in the canvas. Finally, the board updates its own positions of each square in its squares object.
+Board class has undo method. It retrieves all squares moved during the last move from its moves object. Then, each square has its own undo method to update its own coordinates in the canvas. Finally, the board updates its own position of each square in its squares object.
 
 ```JavaScript
 undo() {
@@ -79,9 +79,9 @@ stage.setChildIndex(g1.container, 0);
 
 ## Future Functionality
 
-I hope to implement the following functionality in the future.
+I hope to implement the following functionality in the future:
 
-- Allow users to select from a variety of different puzzles.
+- Allow users to select from a variety of different puzzles
 
 ## Project Design
 
