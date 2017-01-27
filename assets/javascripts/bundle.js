@@ -469,6 +469,9 @@
 	        square.container.addEventListener("click", function () {
 	          _this.handleMove(square, stage);
 	        });
+	        square.container.addEventListener("touchstart", function () {
+	          _this.handleMove(square, stage);
+	        });
 	      });
 	    }
 	  }, {
