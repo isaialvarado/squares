@@ -52,7 +52,7 @@
 	
 	var _game = __webpack_require__(2);
 	
-	var _board = __webpack_require__(3);
+	var _board = __webpack_require__(6);
 	
 	var _board2 = _interopRequireDefault(_board);
 	
@@ -105,15 +105,15 @@
 	
 	var _createjsEaseljs2 = _interopRequireDefault(_createjsEaseljs);
 	
-	var _moveable_square = __webpack_require__(4);
+	var _moveable_square = __webpack_require__(3);
 	
 	var _moveable_square2 = _interopRequireDefault(_moveable_square);
 	
-	var _redirect_square = __webpack_require__(5);
+	var _redirect_square = __webpack_require__(4);
 	
 	var _redirect_square2 = _interopRequireDefault(_redirect_square);
 	
-	var _goal_square = __webpack_require__(6);
+	var _goal_square = __webpack_require__(5);
 	
 	var _goal_square2 = _interopRequireDefault(_goal_square);
 	
@@ -126,26 +126,24 @@
 	};
 	
 	var setupLevel1 = exports.setupLevel1 = function setupLevel1(stage, board) {
-	  var s1 = new _moveable_square2.default(2, 3, "#B5D8EB", "DOWN");
-	  var s2 = new _moveable_square2.default(4, 3, "#D1F2A5", "DOWN");
-	  var s3 = new _moveable_square2.default(2, 5, "#F56991", "UP");
-	  var s4 = new _moveable_square2.default(4, 5, "#FDAE84", "UP");
+	  var s1 = new _moveable_square2.default(2, 4, "#B5D8EB", "UP");
+	  var s2 = new _moveable_square2.default(2, 6, "#D1F2A5", "UP");
+	  var s3 = new _moveable_square2.default(4, 2, "#F56991", "DOWN");
 	
-	  var g1 = new _goal_square2.default(3, 4, "#B5D8EB");
-	  var g2 = new _goal_square2.default(3, 5, "#D1F2A5");
+	  var g1 = new _goal_square2.default(5, 3, "#B5D8EB");
+	  var g2 = new _goal_square2.default(5, 4, "#D1F2A5");
 	  var g3 = new _goal_square2.default(5, 5, "#F56991");
-	  var g4 = new _goal_square2.default(3, 6, "#FDAE84");
 	
-	  var r1 = new _redirect_square2.default(2, 4, "RIGHT");
-	  var r2 = new _redirect_square2.default(3, 3, "DOWN");
-	  var r3 = new _redirect_square2.default(4, 4, "LEFT");
-	  var r4 = new _redirect_square2.default(5, 4, "DOWN");
+	  var r1 = new _redirect_square2.default(2, 3, "DOWN");
+	  var r2 = new _redirect_square2.default(2, 5, "RIGHT");
+	  var r3 = new _redirect_square2.default(4, 3, "LEFT");
+	  var r4 = new _redirect_square2.default(4, 6, "UP");
 	
-	  board.addSquares(stage, s1, s2, s3, s4);
+	  board.addSquares(stage, s1, s2, s3);
 	  board.addRedirects(r1, r2, r3, r4);
-	  board.addGoals(g1, g2, g3, g4);
+	  board.addGoals(g1, g2, g3);
 	
-	  stage.addChild(s1.container, s2.container, s3.container, s4.container, g1.container, g2.container, g3.container, g4.container, r1.container, r2.container, r3.container, r4.container);
+	  stage.addChild(s1.container, s2.container, s3.container, g1.container, g2.container, g3.container, r1.container, r2.container, r3.container, r4.container);
 	
 	  stage.setChildIndex(r1.container, 0);
 	  stage.setChildIndex(r2.container, 0);
@@ -154,7 +152,6 @@
 	  stage.setChildIndex(g1.container, 0);
 	  stage.setChildIndex(g2.container, 0);
 	  stage.setChildIndex(g3.container, 0);
-	  stage.setChildIndex(g4.container, 0);
 	  stage.update();
 	};
 	
@@ -206,11 +203,241 @@
 	
 	var _createjsEaseljs2 = _interopRequireDefault(_createjsEaseljs);
 	
-	var _moveable_square = __webpack_require__(4);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var MoveableSquare = function () {
+	  function MoveableSquare(x, y, color, direction, type) {
+	    _classCallCheck(this, MoveableSquare);
+	
+	    this.setupSquare(x, y, color, direction, type);
+	    this.moves = [[this.container.x, this.container.y, this.direction]];
+	  }
+	
+	  _createClass(MoveableSquare, [{
+	    key: 'setupSquare',
+	    value: function setupSquare(x, y, color, direction, type) {
+	      this.createSquare(color);
+	      this.createSquareText(direction, type);
+	      this.createContainer(x, y);
+	      this.changeDirection(direction);
+	    }
+	  }, {
+	    key: 'createSquare',
+	    value: function createSquare(color) {
+	      this.color = color;
+	      this.square = new _createjsEaseljs2.default.Shape();
+	      this.square.graphics.beginFill(color).drawRect(0, 0, 70, 70);
+	    }
+	  }, {
+	    key: 'createSquareText',
+	    value: function createSquareText(direction, type) {
+	      this.squareText = new _createjsEaseljs2.default.Text();
+	      this.squareText.font = "bold 30px Aerial";
+	      if (type === 'redirect') {
+	        this.squareText.color = "black";
+	      } else {
+	        this.squareText.color = "white";
+	      }
+	      this.squareText.x = 20;
+	      this.squareText.y = 20;
+	      this.assignArrow();
+	    }
+	  }, {
+	    key: 'createContainer',
+	    value: function createContainer(x, y) {
+	      this.container = new _createjsEaseljs2.default.Container();
+	      this.container.addChild(this.square, this.squareText);
+	      this.container.x = x * 80 - 80;
+	      this.container.y = y * 80 - 80;
+	    }
+	  }, {
+	    key: 'changeDirection',
+	    value: function changeDirection(direction) {
+	      this.direction = direction;
+	      switch (direction) {
+	        case 'UP':
+	          this.xShift = 0;
+	          this.yShift = -80;
+	          break;
+	        case 'RIGHT':
+	          this.xShift = 80;
+	          this.yShift = 0;
+	          break;
+	        case 'DOWN':
+	          this.xShift = 0;
+	          this.yShift = 80;
+	          break;
+	        case 'LEFT':
+	          this.xShift = -80;
+	          this.yShift = 0;
+	          break;
+	        default:
+	          return;
+	      }
+	
+	      this.assignArrow(direction);
+	    }
+	  }, {
+	    key: 'assignArrow',
+	    value: function assignArrow(direction) {
+	      var arrows = { 'UP': "▲", 'RIGHT': "▶", 'DOWN': "▼", 'LEFT': "◀" };
+	      this.squareText.text = arrows[direction];
+	    }
+	  }, {
+	    key: 'coordinates',
+	    value: function coordinates() {
+	      return [this.container.x, this.container.y];
+	    }
+	  }, {
+	    key: 'move',
+	    value: function move() {
+	      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.xShift;
+	      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.yShift;
+	      var moveNum = arguments[2];
+	
+	      this.container.x += x;
+	      this.container.y += y;
+	      this.moves.push([this.container.x, this.container.y, this.direction]);
+	    }
+	  }, {
+	    key: 'undo',
+	    value: function undo(moveNum) {
+	      this.moves.pop();
+	      var lastMoves = this.moves[this.moves.length - 1];
+	
+	      this.container.x = lastMoves[0];
+	      this.container.y = lastMoves[1];
+	
+	      if (lastMoves[2] !== this.direction) {
+	        this.changeDirection(lastMoves[2]);
+	      }
+	    }
+	  }]);
+	
+	  return MoveableSquare;
+	}();
+	
+	exports.default = MoveableSquare;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _moveable_square = __webpack_require__(3);
 	
 	var _moveable_square2 = _interopRequireDefault(_moveable_square);
 	
-	var _redirect_square = __webpack_require__(5);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var RedirectSquare = function (_MoveableSquare) {
+	  _inherits(RedirectSquare, _MoveableSquare);
+	
+	  function RedirectSquare(x, y, direction) {
+	    _classCallCheck(this, RedirectSquare);
+	
+	    return _possibleConstructorReturn(this, (RedirectSquare.__proto__ || Object.getPrototypeOf(RedirectSquare)).call(this, x, y, 'white', direction, 'redirect'));
+	  }
+	
+	  return RedirectSquare;
+	}(_moveable_square2.default);
+	
+	exports.default = RedirectSquare;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _createjsEaseljs = __webpack_require__(1);
+	
+	var _createjsEaseljs2 = _interopRequireDefault(_createjsEaseljs);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var GoalSquare = function () {
+	  function GoalSquare(x, y, color) {
+	    _classCallCheck(this, GoalSquare);
+	
+	    this.setupCircle(x, y, color);
+	  }
+	
+	  _createClass(GoalSquare, [{
+	    key: 'setupCircle',
+	    value: function setupCircle(x, y, color) {
+	      this.createCircle(color);
+	      this.createContainer(x, y);
+	    }
+	  }, {
+	    key: 'createCircle',
+	    value: function createCircle(color) {
+	      this.color = color;
+	      this.circle = new _createjsEaseljs2.default.Shape();
+	      this.circle.graphics.beginFill(color).drawCircle(35, 35, 25);
+	    }
+	  }, {
+	    key: 'createContainer',
+	    value: function createContainer(x, y) {
+	      this.container = new _createjsEaseljs2.default.Container();
+	      this.container.addChild(this.circle);
+	      this.container.x = x * 80 - 80;
+	      this.container.y = y * 80 - 80;
+	    }
+	  }, {
+	    key: 'coordinates',
+	    value: function coordinates() {
+	      return [this.container.x, this.container.y];
+	    }
+	  }]);
+	
+	  return GoalSquare;
+	}();
+	
+	exports.default = GoalSquare;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _createjsEaseljs = __webpack_require__(1);
+	
+	var _createjsEaseljs2 = _interopRequireDefault(_createjsEaseljs);
+	
+	var _moveable_square = __webpack_require__(3);
+	
+	var _moveable_square2 = _interopRequireDefault(_moveable_square);
+	
+	var _redirect_square = __webpack_require__(4);
 	
 	var _redirect_square2 = _interopRequireDefault(_redirect_square);
 	
@@ -376,236 +603,6 @@
 	}();
 	
 	exports.default = Board;
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _createjsEaseljs = __webpack_require__(1);
-	
-	var _createjsEaseljs2 = _interopRequireDefault(_createjsEaseljs);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var MoveableSquare = function () {
-	  function MoveableSquare(x, y, color, direction, type) {
-	    _classCallCheck(this, MoveableSquare);
-	
-	    this.setupSquare(x, y, color, direction, type);
-	    this.moves = [[this.container.x, this.container.y, this.direction]];
-	  }
-	
-	  _createClass(MoveableSquare, [{
-	    key: 'setupSquare',
-	    value: function setupSquare(x, y, color, direction, type) {
-	      this.createSquare(color);
-	      this.createSquareText(direction, type);
-	      this.createContainer(x, y);
-	      this.changeDirection(direction);
-	    }
-	  }, {
-	    key: 'createSquare',
-	    value: function createSquare(color) {
-	      this.color = color;
-	      this.square = new _createjsEaseljs2.default.Shape();
-	      this.square.graphics.beginFill(color).drawRect(0, 0, 70, 70);
-	    }
-	  }, {
-	    key: 'createSquareText',
-	    value: function createSquareText(direction, type) {
-	      this.squareText = new _createjsEaseljs2.default.Text();
-	      this.squareText.font = "bold 30px Aerial";
-	      if (type === 'redirect') {
-	        this.squareText.color = "black";
-	      } else {
-	        this.squareText.color = "white";
-	      }
-	      this.squareText.x = 20;
-	      this.squareText.y = 20;
-	      this.assignArrow();
-	    }
-	  }, {
-	    key: 'createContainer',
-	    value: function createContainer(x, y) {
-	      this.container = new _createjsEaseljs2.default.Container();
-	      this.container.addChild(this.square, this.squareText);
-	      this.container.x = x * 80 - 80;
-	      this.container.y = y * 80 - 80;
-	    }
-	  }, {
-	    key: 'changeDirection',
-	    value: function changeDirection(direction) {
-	      this.direction = direction;
-	      switch (direction) {
-	        case 'UP':
-	          this.xShift = 0;
-	          this.yShift = -80;
-	          break;
-	        case 'RIGHT':
-	          this.xShift = 80;
-	          this.yShift = 0;
-	          break;
-	        case 'DOWN':
-	          this.xShift = 0;
-	          this.yShift = 80;
-	          break;
-	        case 'LEFT':
-	          this.xShift = -80;
-	          this.yShift = 0;
-	          break;
-	        default:
-	          return;
-	      }
-	
-	      this.assignArrow(direction);
-	    }
-	  }, {
-	    key: 'assignArrow',
-	    value: function assignArrow(direction) {
-	      var arrows = { 'UP': "▲", 'RIGHT': "▶", 'DOWN': "▼", 'LEFT': "◀" };
-	      this.squareText.text = arrows[direction];
-	    }
-	  }, {
-	    key: 'coordinates',
-	    value: function coordinates() {
-	      return [this.container.x, this.container.y];
-	    }
-	  }, {
-	    key: 'move',
-	    value: function move() {
-	      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.xShift;
-	      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.yShift;
-	      var moveNum = arguments[2];
-	
-	      this.container.x += x;
-	      this.container.y += y;
-	      this.moves.push([this.container.x, this.container.y, this.direction]);
-	    }
-	  }, {
-	    key: 'undo',
-	    value: function undo(moveNum) {
-	      this.moves.pop();
-	      var lastMoves = this.moves[this.moves.length - 1];
-	
-	      this.container.x = lastMoves[0];
-	      this.container.y = lastMoves[1];
-	
-	      if (lastMoves[2] !== this.direction) {
-	        this.changeDirection(lastMoves[2]);
-	      }
-	    }
-	  }]);
-	
-	  return MoveableSquare;
-	}();
-	
-	exports.default = MoveableSquare;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _moveable_square = __webpack_require__(4);
-	
-	var _moveable_square2 = _interopRequireDefault(_moveable_square);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var RedirectSquare = function (_MoveableSquare) {
-	  _inherits(RedirectSquare, _MoveableSquare);
-	
-	  function RedirectSquare(x, y, direction) {
-	    _classCallCheck(this, RedirectSquare);
-	
-	    return _possibleConstructorReturn(this, (RedirectSquare.__proto__ || Object.getPrototypeOf(RedirectSquare)).call(this, x, y, 'white', direction, 'redirect'));
-	  }
-	
-	  return RedirectSquare;
-	}(_moveable_square2.default);
-	
-	exports.default = RedirectSquare;
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _createjsEaseljs = __webpack_require__(1);
-	
-	var _createjsEaseljs2 = _interopRequireDefault(_createjsEaseljs);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var GoalSquare = function () {
-	  function GoalSquare(x, y, color) {
-	    _classCallCheck(this, GoalSquare);
-	
-	    this.setupCircle(x, y, color);
-	  }
-	
-	  _createClass(GoalSquare, [{
-	    key: 'setupCircle',
-	    value: function setupCircle(x, y, color) {
-	      this.createCircle(color);
-	      this.createContainer(x, y);
-	    }
-	  }, {
-	    key: 'createCircle',
-	    value: function createCircle(color) {
-	      this.color = color;
-	      this.circle = new _createjsEaseljs2.default.Shape();
-	      this.circle.graphics.beginFill(color).drawCircle(35, 35, 25);
-	    }
-	  }, {
-	    key: 'createContainer',
-	    value: function createContainer(x, y) {
-	      this.container = new _createjsEaseljs2.default.Container();
-	      this.container.addChild(this.circle);
-	      this.container.x = x * 80 - 80;
-	      this.container.y = y * 80 - 80;
-	    }
-	  }, {
-	    key: 'coordinates',
-	    value: function coordinates() {
-	      return [this.container.x, this.container.y];
-	    }
-	  }]);
-	
-	  return GoalSquare;
-	}();
-	
-	exports.default = GoalSquare;
 
 /***/ }
 /******/ ]);
