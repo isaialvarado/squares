@@ -14,9 +14,9 @@ export const setupLevel1 = (stage, board) => {
   const s2 = new MoveableSquare(2, 6, "#D1F2A5", "UP");
   const s3 = new MoveableSquare(4, 2, "#F56991", "DOWN");
 
-  const g1 = new GoalSquare(5, 3, "#B5D8EB");
-  const g2 = new GoalSquare(5, 4, "#D1F2A5");
-  const g3 = new GoalSquare(5, 5, "#F56991");
+  const g1 = new GoalSquare(5, 4, "#B5D8EB");
+  const g2 = new GoalSquare(5, 5, "#D1F2A5");
+  const g3 = new GoalSquare(5, 3, "#F56991");
 
   const r1 = new RedirectSquare(2, 3, "DOWN");
   const r2 = new RedirectSquare(2, 5, "RIGHT");
