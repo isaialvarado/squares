@@ -130,9 +130,9 @@
 	  var s2 = new _moveable_square2.default(2, 6, "#D1F2A5", "UP");
 	  var s3 = new _moveable_square2.default(4, 2, "#F56991", "DOWN");
 	
-	  var g1 = new _goal_square2.default(5, 3, "#B5D8EB");
-	  var g2 = new _goal_square2.default(5, 4, "#D1F2A5");
-	  var g3 = new _goal_square2.default(5, 5, "#F56991");
+	  var g1 = new _goal_square2.default(5, 4, "#B5D8EB");
+	  var g2 = new _goal_square2.default(5, 5, "#D1F2A5");
+	  var g3 = new _goal_square2.default(5, 3, "#F56991");
 	
 	  var r1 = new _redirect_square2.default(2, 3, "DOWN");
 	  var r2 = new _redirect_square2.default(2, 5, "RIGHT");
