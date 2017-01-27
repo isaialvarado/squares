@@ -69,7 +69,7 @@ export const setupModal = () => {
   const modal = document.getElementById("instructions-modal");
 
   instructionButton.addEventListener("click", () => (
-    modal.style.display = "block"
+    modal.style.display = "flex"
   ));
 
   window.addEventListener("click", event => {

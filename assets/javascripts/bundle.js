@@ -175,7 +175,7 @@
 	  var modal = document.getElementById("instructions-modal");
 	
 	  instructionButton.addEventListener("click", function () {
-	    return modal.style.display = "block";
+	    return modal.style.display = "flex";
 	  });
 	
 	  window.addEventListener("click", function (event) {
@@ -563,11 +563,10 @@
 	  }, {
 	    key: 'winningMessage',
 	    value: function winningMessage(stage) {
-	      var msg = new _createjsEaseljs2.default.Text("Level Complete!", "bold 25px 'Press Start 2P'", "blue");
+	      var msg = new _createjsEaseljs2.default.Text("Level Complete!", "bold 35px 'Allerta Stencil'", "black");
 	      var msgBounds = msg.getBounds();
-	      msg.y = 4;
 	      var msgBox = new _createjsEaseljs2.default.Shape();
-	      msgBox.graphics.beginFill("firebrick").drawRect(0, 0, msgBounds.width, msgBounds.height);
+	      msgBox.graphics.beginFill("#EFFAB4").drawRect(0, 0, msgBounds.width, msgBounds.height + 8);
 	
 	      var msgContainer = new _createjsEaseljs2.default.Container();
 	      msgContainer.x = stage.canvas.width / 2 - msgBounds.width / 2;

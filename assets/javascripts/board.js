@@ -101,15 +101,14 @@ class Board {
   winningMessage(stage) {
     const msg = new createjs.Text(
       "Level Complete!",
-      "bold 25px 'Press Start 2P'",
-      "blue"
+      "bold 35px 'Allerta Stencil'",
+      "black"
     );
     const msgBounds = msg.getBounds();
-    msg.y = 4;
     const msgBox = new createjs.Shape();
     msgBox.graphics
-      .beginFill("firebrick")
-      .drawRect(0, 0, msgBounds.width, msgBounds.height);
+      .beginFill("#EFFAB4")
+      .drawRect(0, 0, msgBounds.width, msgBounds.height + 8);
 
     const msgContainer = new createjs.Container();
     msgContainer.x = (stage.canvas.width / 2) - (msgBounds.width / 2);
