@@ -126,26 +126,24 @@
 	};
 	
 	var setupLevel1 = exports.setupLevel1 = function setupLevel1(stage, board) {
-	  var s1 = new _moveable_square2.default(2, 3, "#B5D8EB", "DOWN");
-	  var s2 = new _moveable_square2.default(4, 3, "#D1F2A5", "DOWN");
-	  var s3 = new _moveable_square2.default(2, 5, "#F56991", "UP");
-	  var s4 = new _moveable_square2.default(4, 5, "#FDAE84", "UP");
+	  var s1 = new _moveable_square2.default(2, 4, "#B5D8EB", "UP");
+	  var s2 = new _moveable_square2.default(2, 6, "#D1F2A5", "UP");
+	  var s3 = new _moveable_square2.default(4, 2, "#F56991", "DOWN");
 	
-	  var g1 = new _goal_square2.default(3, 4, "#B5D8EB");
-	  var g2 = new _goal_square2.default(3, 5, "#D1F2A5");
+	  var g1 = new _goal_square2.default(5, 3, "#B5D8EB");
+	  var g2 = new _goal_square2.default(5, 4, "#D1F2A5");
 	  var g3 = new _goal_square2.default(5, 5, "#F56991");
-	  var g4 = new _goal_square2.default(3, 6, "#FDAE84");
 	
-	  var r1 = new _redirect_square2.default(2, 4, "RIGHT");
-	  var r2 = new _redirect_square2.default(3, 3, "DOWN");
-	  var r3 = new _redirect_square2.default(4, 4, "LEFT");
-	  var r4 = new _redirect_square2.default(5, 4, "DOWN");
+	  var r1 = new _redirect_square2.default(2, 3, "DOWN");
+	  var r2 = new _redirect_square2.default(2, 5, "RIGHT");
+	  var r3 = new _redirect_square2.default(4, 3, "LEFT");
+	  var r4 = new _redirect_square2.default(4, 6, "UP");
 	
-	  board.addSquares(stage, s1, s2, s3, s4);
+	  board.addSquares(stage, s1, s2, s3);
 	  board.addRedirects(r1, r2, r3, r4);
-	  board.addGoals(g1, g2, g3, g4);
+	  board.addGoals(g1, g2, g3);
 	
-	  stage.addChild(s1.container, s2.container, s3.container, s4.container, g1.container, g2.container, g3.container, g4.container, r1.container, r2.container, r3.container, r4.container);
+	  stage.addChild(s1.container, s2.container, s3.container, g1.container, g2.container, g3.container, r1.container, r2.container, r3.container, r4.container);
 	
 	  stage.setChildIndex(r1.container, 0);
 	  stage.setChildIndex(r2.container, 0);
@@ -154,7 +152,6 @@
 	  stage.setChildIndex(g1.container, 0);
 	  stage.setChildIndex(g2.container, 0);
 	  stage.setChildIndex(g3.container, 0);
-	  stage.setChildIndex(g4.container, 0);
 	  stage.update();
 	};
 	
