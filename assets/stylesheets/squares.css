@@ -7,7 +7,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: black;
+  background-color: #FFC48C;
 }
 
 .top {
@@ -17,7 +17,7 @@ body {
 .top a {
   margin-bottom: 10px;
   font-family: 'Open Sans', sans-serif;
-  color: white;
+  color: black;
 }
 
 .top-left, .top-right {
@@ -28,29 +28,23 @@ body {
 }
 
 button {
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'Allerta Stencil', sans-serif;
+  background-color: #EFFAB4;
+  color: black;
   font-size: 25px;
   margin: 0 20px;
 }
 
-#undo {
-  background-color: red;
-  color: white;
-}
-
-#restart {
-  background-color: blue;
-  color: white;
-}
-
-#instructions {
-  background-color: green;
-  font-size: 14px;
-  color: white;
+#instructions-button {
   margin-top: 10px;
+}
+
+.modal {
+  display: none;
 }
 
 canvas {
   margin: 0 auto;
+  border-radius: 10px;
   background-color: white;
 }

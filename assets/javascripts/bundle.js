@@ -99,7 +99,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.setupUserButtons = exports.setupLevel1 = exports.setupGame = undefined;
+	exports.setupModal = exports.setupUserButtons = exports.setupLevel1 = exports.setupGame = undefined;
 	
 	var _createjsEaseljs = __webpack_require__(1);
 	
@@ -122,16 +122,17 @@
 	var setupGame = exports.setupGame = function setupGame(stage, board) {
 	  setupLevel1(stage, board);
 	  setupUserButtons(stage, board);
+	  setupModal();
 	};
 	
 	var setupLevel1 = exports.setupLevel1 = function setupLevel1(stage, board) {
-	  var s1 = new _moveable_square2.default(2, 4, "green", "RIGHT");
-	  var s2 = new _moveable_square2.default(1, 5, "blue", "RIGHT");
-	  var s3 = new _moveable_square2.default(3, 5, "red", "UP");
+	  var s1 = new _moveable_square2.default(2, 4, "#B5D8EB", "RIGHT");
+	  var s2 = new _moveable_square2.default(1, 5, "#D1F2A5", "RIGHT");
+	  var s3 = new _moveable_square2.default(3, 5, "#F56991", "UP");
 	
-	  var g1 = new _goal_square2.default(5, 5, "green");
-	  var g2 = new _goal_square2.default(2, 5, "blue");
-	  var g3 = new _goal_square2.default(3, 2, "red");
+	  var g1 = new _goal_square2.default(5, 5, "#B5D8EB");
+	  var g2 = new _goal_square2.default(2, 5, "#D1F2A5");
+	  var g3 = new _goal_square2.default(3, 2, "#F56991");
 	
 	  var r1 = new _redirect_square2.default(3, 3, "DOWN");
 	  var r2 = new _redirect_square2.default(3, 6, "UP");
@@ -155,7 +156,6 @@
 	var setupUserButtons = exports.setupUserButtons = function setupUserButtons(stage, board) {
 	  var restartButton = document.getElementById("restart");
 	  var undoButton = document.getElementById("undo");
-	  var instructionButton = document.getElementById("instructions");
 	
 	  restartButton.addEventListener("click", function () {
 	    stage.removeAllChildren();
@@ -168,9 +168,20 @@
 	    board.undo();
 	    stage.update();
 	  });
+	};
+	
+	var setupModal = exports.setupModal = function setupModal() {
+	  var instructionButton = document.getElementById("instructions-button");
+	  var modal = document.getElementById("instructions-modal");
 	
 	  instructionButton.addEventListener("click", function () {
-	    return alert("Goal: Click on squares and move them to their respective circle\n\nTip 1: Squares can push other squares\n\nTip 2: Black arrows on the board change a square's direction");
+	    return modal.style.display = "block";
+	  });
+	
+	  window.addEventListener("click", function (event) {
+	    if (event.target === modal) {
+	      modal.style.display = "none";
+	    }
 	  });
 	};
 

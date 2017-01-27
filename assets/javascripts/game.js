@@ -6,16 +6,17 @@ import GoalSquare from './goal_square';
 export const setupGame = (stage, board) => {
   setupLevel1(stage, board);
   setupUserButtons(stage, board);
+  setupModal();
 };
 
 export const setupLevel1 = (stage, board) => {
-  const s1 = new MoveableSquare(2, 4, "green", "RIGHT");
-  const s2 = new MoveableSquare(1, 5, "blue", "RIGHT");
-  const s3 = new MoveableSquare(3, 5, "red", "UP");
+  const s1 = new MoveableSquare(2, 4, "#B5D8EB", "RIGHT");
+  const s2 = new MoveableSquare(1, 5, "#D1F2A5", "RIGHT");
+  const s3 = new MoveableSquare(3, 5, "#F56991", "UP");
 
-  const g1 = new GoalSquare(5, 5, "green");
-  const g2 = new GoalSquare(2, 5, "blue");
-  const g3 = new GoalSquare(3, 2, "red");
+  const g1 = new GoalSquare(5, 5, "#B5D8EB");
+  const g2 = new GoalSquare(2, 5, "#D1F2A5");
+  const g3 = new GoalSquare(3, 2, "#F56991");
 
   const r1 = new RedirectSquare(3, 3, "DOWN");
   const r2 = new RedirectSquare(3, 6, "UP");
@@ -49,7 +50,6 @@ export const setupLevel1 = (stage, board) => {
 export const setupUserButtons = (stage, board) => {
   const restartButton = document.getElementById("restart");
   const undoButton = document.getElementById("undo");
-  const instructionButton = document.getElementById("instructions");
 
   restartButton.addEventListener("click", () => {
     stage.removeAllChildren();
@@ -62,8 +62,19 @@ export const setupUserButtons = (stage, board) => {
     board.undo();
     stage.update();
   });
+};
+
+export const setupModal = () => {
+  const instructionButton = document.getElementById("instructions-button");
+  const modal = document.getElementById("instructions-modal");
 
   instructionButton.addEventListener("click", () => (
-    alert("Goal: Click on squares and move them to their respective circle\n\nTip 1: Squares can push other squares\n\nTip 2: Black arrows on the board change a square's direction")
+    modal.style.display = "block"
   ));
+
+  window.addEventListener("click", event => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
 };
