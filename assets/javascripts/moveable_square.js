@@ -74,13 +74,13 @@ class MoveableSquare {
     return [this.container.x, this.container.y];
   }
 
-  move(x = this.xShift, y = this.yShift, moveNum) {
+  move(x = this.xShift, y = this.yShift) {
     this.container.x += x;
     this.container.y += y;
     this.moves.push([this.container.x, this.container.y, this.direction]);
   }
 
-  undo(moveNum) {
+  undo() {
     this.moves.pop();
     const lastMoves = this.moves[this.moves.length - 1];
 

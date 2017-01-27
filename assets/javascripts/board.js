@@ -9,7 +9,7 @@ class Board {
     this.goals = [];
     this.moves = {};
     this.moveCount = 0;
-    this.coordinatesOflastSquareMoved = [];
+    this.coordinatesOfLastSquareMoved = [];
   }
 
   addSquares(stage, ...squares) {
@@ -64,7 +64,7 @@ class Board {
         break;
       }
     }
-    this.coordinatesOflastSquareMoved.push(squareToMove.coordinates());
+    this.coordinatesOfLastSquareMoved.push(squareToMove.coordinates());
     stage.update();
     this.gameOver(stage);
   }
@@ -122,15 +122,15 @@ class Board {
     if (this.moveCount === 0) {
       return;
     } else {
-      const squares = this.moves[this.moveCount];
+      const squaresToUndo = this.moves[this.moveCount];
 
-      squares.forEach(square => {
-        square.undo(this.moveCount);
+      squaresToUndo.forEach(square => {
+        square.undo();
         this.squares[square.coordinates()] = square;
       });
 
       delete this.moves[this.moveCount];
-      delete this.squares[this.coordinatesOflastSquareMoved.pop()];
+      delete this.squares[this.coordinatesOfLastSquareMoved.pop()];
       this.moveCount -= 1;
     }
   }
