@@ -295,7 +295,6 @@
 	    value: function move() {
 	      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.xShift;
 	      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.yShift;
-	      var moveNum = arguments[2];
 	
 	      this.container.x += x;
 	      this.container.y += y;
@@ -303,7 +302,7 @@
 	    }
 	  }, {
 	    key: 'undo',
-	    value: function undo(moveNum) {
+	    value: function undo() {
 	      this.moves.pop();
 	      var lastMoves = this.moves[this.moves.length - 1];
 	
@@ -454,7 +453,7 @@
 	    this.goals = [];
 	    this.moves = {};
 	    this.moveCount = 0;
-	    this.coordinatesOflastSquareMoved = [];
+	    this.coordinatesOfLastSquareMoved = [];
 	  }
 	
 	  _createClass(Board, [{
@@ -529,7 +528,7 @@
 	          break;
 	        }
 	      }
-	      this.coordinatesOflastSquareMoved.push(squareToMove.coordinates());
+	      this.coordinatesOfLastSquareMoved.push(squareToMove.coordinates());
 	      stage.update();
 	      this.gameOver(stage);
 	    }
@@ -585,15 +584,15 @@
 	      if (this.moveCount === 0) {
 	        return;
 	      } else {
-	        var _squares = this.moves[this.moveCount];
+	        var squaresToUndo = this.moves[this.moveCount];
 	
-	        _squares.forEach(function (square) {
-	          square.undo(_this4.moveCount);
+	        squaresToUndo.forEach(function (square) {
+	          square.undo();
 	          _this4.squares[square.coordinates()] = square;
 	        });
 	
 	        delete this.moves[this.moveCount];
-	        delete this.squares[this.coordinatesOflastSquareMoved.pop()];
+	        delete this.squares[this.coordinatesOfLastSquareMoved.pop()];
 	        this.moveCount -= 1;
 	      }
 	    }
