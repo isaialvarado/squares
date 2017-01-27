@@ -21,12 +21,6 @@ class Board {
           this.handleMove(square, stage);
         }
       );
-      square.container.addEventListener(
-        "touchstart",
-        () =>  {
-          this.handleMove(square, stage);
-        }
-      );
     });
   }
 
