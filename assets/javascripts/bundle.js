@@ -175,6 +175,11 @@
 	var setupModal = exports.setupModal = function setupModal() {
 	  var instructionButton = document.getElementById("instructions-button");
 	  var modal = document.getElementById("instructions-modal");
+	  var modalCloseButton = document.getElementById("modal-close-button");
+	
+	  modalCloseButton.addEventListener("click", function () {
+	    return modal.style.display = "none";
+	  });
 	
 	  instructionButton.addEventListener("click", function () {
 	    return modal.style.display = "flex";

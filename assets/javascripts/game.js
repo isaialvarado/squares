@@ -70,6 +70,11 @@ export const setupUserButtons = (stage, board) => {
 export const setupModal = () => {
   const instructionButton = document.getElementById("instructions-button");
   const modal = document.getElementById("instructions-modal");
+  const modalCloseButton = document.getElementById("modal-close-button");
+
+  modalCloseButton.addEventListener("click", () => (
+    modal.style.display = "none"
+  ));
 
   instructionButton.addEventListener("click", () => (
     modal.style.display = "flex"
