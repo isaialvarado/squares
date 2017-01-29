@@ -473,7 +473,7 @@
 	      squares.forEach(function (square) {
 	        _this.squares[[square.container.x, square.container.y]] = square;
 	        square.container.addEventListener("click", function () {
-	          _this.handleMove(square, stage);
+	          return _this.handleMove(square, stage);
 	        });
 	      });
 	    }
@@ -500,7 +500,7 @@
 	      }
 	
 	      goals.forEach(function (goal) {
-	        _this3.goals.push(goal);
+	        return _this3.goals.push(goal);
 	      });
 	    }
 	  }, {

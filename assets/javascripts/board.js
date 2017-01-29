@@ -16,10 +16,7 @@ class Board {
     squares.forEach(square => {
       this.squares[[square.container.x, square.container.y]] = square;
       square.container.addEventListener(
-        "click",
-        () =>  {
-          this.handleMove(square, stage);
-        }
+        "click", () =>  this.handleMove(square, stage)
       );
     });
   }
@@ -31,9 +28,7 @@ class Board {
   }
 
   addGoals(...goals) {
-    goals.forEach(goal => {
-      this.goals.push(goal);
-    });
+    goals.forEach(goal => this.goals.push(goal));
   }
 
   handleMove(square, stage) {
