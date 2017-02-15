@@ -4,7 +4,7 @@
 
 The goal of the game is to move each colored square onto their same-colored circle. Squares are moved by clicking on them. By default, squares move one space at a time and only in one direction: left, right, up or down. The direction is indicated by an arrow on the face of the square. Squares can push other squares.
 
-[live]: https://isaialvarado.github.io/squares/squares.html
+[live]: https://isaialvarado.github.io/squares/
 ## Motivation
 
 I admire the simplicity and fun factor of these types of grid-based puzzles; therefore, I wanted to recreate one on my own. I submitted this as my [App Academy](https://www.appacademy.io/) JavaScript project.
