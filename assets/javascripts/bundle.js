@@ -59,9 +59,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	document.addEventListener('DOMContentLoaded', function () {
+	  var width = "390";
+	  var height = "550";
 	  var stage = new _createjsEaseljs2.default.Stage("canvas");
+	
+	  stage.canvas.width = width;
+	  stage.canvas.height = height;
+	
 	  var board = new _board2.default();
 	  (0, _game.setupGame)(stage, board);
+	  window.board = board;
 	});
 
 /***/ },
@@ -506,36 +513,66 @@
 	  }, {
 	    key: 'handleMove',
 	    value: function handleMove(square, stage) {
-	      this.moveCount += 1;
-	      this.moves[this.moveCount] = [];
-	      var squareToMove = square;
-	      var xShift = square.xShift;
-	      var yShift = square.yShift;
-	      delete this.squares[[square.container.x, square.container.y]];
+	      if (this.validMove(square, stage)) {
+	        this.moveCount += 1;
+	        this.moves[this.moveCount] = [];
+	        var squareToMove = square;
+	        var xShift = square.xShift;
+	        var yShift = square.yShift;
+	        delete this.squares[[square.container.x, square.container.y]];
 	
-	      while (true) {
-	        this.moves[this.moveCount].push(squareToMove);
-	        var newX = squareToMove.container.x + xShift;
-	        var newY = squareToMove.container.y + yShift;
-	        var neighbor = this.squares[[newX, newY]];
-	        var redirect = this.redirects[[newX, newY]];
+	        while (true) {
+	          this.moves[this.moveCount].push(squareToMove);
+	          var newX = squareToMove.container.x + xShift;
+	          var newY = squareToMove.container.y + yShift;
+	          var neighbor = this.squares[[newX, newY]];
+	          var redirect = this.redirects[[newX, newY]];
 	
-	        if (redirect && squareToMove.direction !== redirect.direction) {
-	          squareToMove.changeDirection(redirect.direction);
+	          if (redirect && squareToMove.direction !== redirect.direction) {
+	            squareToMove.changeDirection(redirect.direction);
+	          }
+	
+	          squareToMove.move(xShift, yShift); //move square
+	          this.squares[[newX, newY]] = squareToMove; //update board position
+	
+	          if (neighbor) {
+	            squareToMove = neighbor;
+	          } else {
+	            break;
+	          }
+	        }
+	        this.coordinatesOfLastSquareMoved.push(squareToMove.coordinates());
+	        stage.update();
+	        this.gameOver(stage);
+	      }
+	    }
+	  }, {
+	    key: 'validMove',
+	    value: function validMove(square, stage) {
+	      var testSquare = square;
+	      var validMove = true;
+	      var width = stage.canvas.width + 10;
+	      var height = stage.canvas.height + 10;
+	      var xShift = testSquare.xShift;
+	      var yShift = testSquare.yShift;
+	
+	      while (validMove) {
+	        var newX = testSquare.container.x + xShift;
+	        var newY = testSquare.container.y + yShift;
+	
+	        if (newX < 0 || newX >= width || newY < 0 || newY >= height) {
+	          validMove = false;
+	          break;
 	        }
 	
-	        squareToMove.move(xShift, yShift); //move square
-	        this.squares[[newX, newY]] = squareToMove; //update board position
-	
+	        var neighbor = this.squares[[newX, newY]];
 	        if (neighbor) {
-	          squareToMove = neighbor;
+	          testSquare = neighbor;
 	        } else {
 	          break;
 	        }
 	      }
-	      this.coordinatesOfLastSquareMoved.push(squareToMove.coordinates());
-	      stage.update();
-	      this.gameOver(stage);
+	      return validMove;
 	    }
 	  }, {
 	    key: 'gameOver',
@@ -586,9 +623,7 @@
 	    value: function undo() {
 	      var _this4 = this;
 	
-	      if (this.moveCount === 0) {
-	        return;
-	      } else {
+	      if (this.moveCount > 0) {
 	        var squaresToUndo = this.moves[this.moveCount];
 	
 	        squaresToUndo.forEach(function (square) {
