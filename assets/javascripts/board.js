@@ -32,36 +32,65 @@ class Board {
   }
 
   handleMove(square, stage) {
-    this.moveCount += 1;
-    this.moves[this.moveCount] = [];
-    let squareToMove = square;
-    const xShift = square.xShift;
-    const yShift = square.yShift;
-    delete this.squares[[square.container.x, square.container.y]];
+    if (this.validMove(square, stage)) {
+      this.moveCount += 1;
+      this.moves[this.moveCount] = [];
+      let squareToMove = square;
+      const xShift = square.xShift;
+      const yShift = square.yShift;
+      delete this.squares[[square.container.x, square.container.y]];
 
-    while (true) {
-      this.moves[this.moveCount].push(squareToMove);
-      let newX = squareToMove.container.x + xShift;
-      let newY = squareToMove.container.y + yShift;
-      let neighbor = this.squares[[newX, newY]];
-      let redirect = this.redirects[[newX, newY]];
+      while (true) {
+        this.moves[this.moveCount].push(squareToMove);
+        let newX = squareToMove.container.x + xShift;
+        let newY = squareToMove.container.y + yShift;
+        let neighbor = this.squares[[newX, newY]];
+        let redirect = this.redirects[[newX, newY]];
 
-      if (redirect && squareToMove.direction !== redirect.direction) {
-        squareToMove.changeDirection(redirect.direction);
+        if (redirect && squareToMove.direction !== redirect.direction) {
+          squareToMove.changeDirection(redirect.direction);
+        }
+
+        squareToMove.move(xShift, yShift); //move square
+        this.squares[[newX, newY]] = squareToMove; //update board position
+
+        if (neighbor) {
+          squareToMove = neighbor;
+        } else {
+          break;
+        }
+      }
+      this.coordinatesOfLastSquareMoved.push(squareToMove.coordinates());
+      stage.update();
+      this.gameOver(stage);
+    }
+  }
+
+  validMove(square, stage) {
+    let testSquare = square;
+    let validMove = true;
+    const width = stage.canvas.width + 10;
+    const height = stage.canvas.height + 10;
+    const xShift = testSquare.xShift;
+    const yShift = testSquare.yShift;
+
+    while (validMove) {
+      let newX = testSquare.container.x + xShift;
+      let newY = testSquare.container.y + yShift;
+
+      if ((newX < 0 || newX >= width) || (newY < 0 || newY >= height)) {
+        validMove = false;
+        break;
       }
 
-      squareToMove.move(xShift, yShift); //move square
-      this.squares[[newX, newY]] = squareToMove; //update board position
-
+      let neighbor = this.squares[[newX, newY]];
       if (neighbor) {
-        squareToMove = neighbor;
+        testSquare = neighbor;
       } else {
         break;
       }
     }
-    this.coordinatesOfLastSquareMoved.push(squareToMove.coordinates());
-    stage.update();
-    this.gameOver(stage);
+    return validMove;
   }
 
   gameOver(stage) {
@@ -114,9 +143,7 @@ class Board {
   }
 
   undo() {
-    if (this.moveCount === 0) {
-      return;
-    } else {
+    if (this.moveCount > 0) {
       const squaresToUndo = this.moves[this.moveCount];
 
       squaresToUndo.forEach(square => {
