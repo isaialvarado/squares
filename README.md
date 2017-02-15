@@ -7,7 +7,7 @@ The goal of the game is to move each colored square onto their same-colored circ
 [live]: https://isaialvarado.github.io/squares/
 ## Motivation
 
-I admire the simplicity and fun factor of these types of grid-based puzzles; therefore, I wanted to recreate one on my own. I submitted this as my [App Academy](https://www.appacademy.io/) JavaScript project.
+Motivation was to recreate the simplicity and fun factor of a grid-based puzzle.
 
 ## Features
 
@@ -79,7 +79,7 @@ stage.setChildIndex(g1.container, 0);
 
 ## Future Functionality
 
-I hope to implement the following functionality in the future:
+The following is a list of functionality for future implementation:
 
 - Allow users to select from a variety of different puzzles
 
