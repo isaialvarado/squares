@@ -4,14 +4,13 @@ html{
 }
 
 body {
-  height: 100%;
-  width: 100%;
   margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #FFC48C;
+  overflow: scroll;
 }
 
 canvas {
@@ -20,13 +19,26 @@ canvas {
 }
 
 .top {
+  margin-top: 20px;
   display: flex;
 }
 
 .top a {
-  margin-bottom: 10px;
-  font-family: 'Open Sans', sans-serif;
-  color: black;
+  margin-bottom: 25px;
+  display: block;
+}
+
+#github {
+  background-image: url('../images/GitHub-Mark-32px.png');
+  height: 32px;
+  width: 32px;
+}
+
+#linkedin {
+  background-image: url('../images/Logo-2C-34px-TM.png');
+  background-size: cover;
+  height: 34px;
+  width: 150px;
 }
 
 .top-left, .top-right {
@@ -38,6 +50,7 @@ canvas {
 
 button {
   font-family: 'Allerta Stencil', sans-serif;
+  vertical-align: middle;
   background-color: #EFFAB4;
   color: black;
   font-size: 25px;
