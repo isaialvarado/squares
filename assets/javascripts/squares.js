@@ -12,5 +12,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const board = new Board();
   setupGame(stage, board);
-  window.board = board;
 });

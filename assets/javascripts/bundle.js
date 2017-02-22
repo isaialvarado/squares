@@ -68,7 +68,6 @@
 	
 	  var board = new _board2.default();
 	  (0, _game.setupGame)(stage, board);
-	  window.board = board;
 	});
 
 /***/ },
@@ -304,12 +303,13 @@
 	    }
 	  }, {
 	    key: 'move',
-	    value: function move() {
-	      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.xShift;
-	      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.yShift;
-	
-	      this.container.x += x;
-	      this.container.y += y;
+	    value: function move(x, y) {
+	      this.container.x += x / 20;
+	      this.container.y += y / 20;
+	    }
+	  }, {
+	    key: 'updateMoves',
+	    value: function updateMoves() {
 	      this.moves.push([this.container.x, this.container.y, this.direction]);
 	    }
 	  }, {
@@ -513,6 +513,7 @@
 	  }, {
 	    key: 'handleMove',
 	    value: function handleMove(square, stage) {
+	      stage.enableDOMEvents(false);
 	      if (this.validMove(square, stage)) {
 	        this.moveCount += 1;
 	        this.moves[this.moveCount] = [];
@@ -532,8 +533,10 @@
 	            squareToMove.changeDirection(redirect.direction);
 	          }
 	
-	          squareToMove.move(xShift, yShift); //move square
-	          this.squares[[newX, newY]] = squareToMove; //update board position
+	          squareToMove.callback = squareToMove.move.bind(squareToMove, xShift, yShift);
+	          squareToMove.container.addEventListener('tick', squareToMove.callback);
+	
+	          this.squares[[newX, newY]] = squareToMove;
 	
 	          if (neighbor) {
 	            squareToMove = neighbor;
@@ -541,10 +544,47 @@
 	            break;
 	          }
 	        }
-	        this.coordinatesOfLastSquareMoved.push(squareToMove.coordinates());
-	        stage.update();
-	        this.gameOver(stage);
+	
+	        this.coordinatesOfLastSquareMoved.push([squareToMove.container.x + xShift, squareToMove.container.y + yShift]);
+	
+	        this.animateSquares(stage);
+	      } else {
+	        stage.enableDOMEvents(true);
 	      }
+	    }
+	  }, {
+	    key: 'animateSquares',
+	    value: function animateSquares(stage) {
+	      var _this4 = this;
+	
+	      var i = 0;
+	      var intervalId = setInterval(function () {
+	        stage.update();
+	        if (i > 18) {
+	          clearInterval(intervalId);
+	          _this4.removeEventListeners();
+	          _this4.updateSquares();
+	          var gameOver = _this4.checkGameOver(stage);
+	          if (!gameOver) {
+	            stage.enableDOMEvents(true);
+	          }
+	        }
+	        i++;
+	      }, 5);
+	    }
+	  }, {
+	    key: 'removeEventListeners',
+	    value: function removeEventListeners() {
+	      this.moves[this.moveCount].forEach(function (square) {
+	        square.container.removeEventListener('tick', square.callback);
+	      });
+	    }
+	  }, {
+	    key: 'updateSquares',
+	    value: function updateSquares() {
+	      this.moves[this.moveCount].forEach(function (square) {
+	        square.updateMoves();
+	      });
 	    }
 	  }, {
 	    key: 'validMove',
@@ -575,8 +615,8 @@
 	      return validMove;
 	    }
 	  }, {
-	    key: 'gameOver',
-	    value: function gameOver(stage) {
+	    key: 'checkGameOver',
+	    value: function checkGameOver(stage) {
 	      var squares = this.squares;
 	      var gameOver = this.goals.every(function (goal) {
 	        return squares[goal.coordinates()] && goal.color === squares[goal.coordinates()].color;
@@ -587,6 +627,8 @@
 	        stage.enableDOMEvents(false);
 	        this.clearBoard();
 	      }
+	
+	      return gameOver;
 	    }
 	  }, {
 	    key: 'clearBoard',
@@ -621,14 +663,14 @@
 	  }, {
 	    key: 'undo',
 	    value: function undo() {
-	      var _this4 = this;
+	      var _this5 = this;
 	
 	      if (this.moveCount > 0) {
 	        var squaresToUndo = this.moves[this.moveCount];
 	
 	        squaresToUndo.forEach(function (square) {
 	          square.undo();
-	          _this4.squares[square.coordinates()] = square;
+	          _this5.squares[square.coordinates()] = square;
 	        });
 	
 	        delete this.moves[this.moveCount];

@@ -32,6 +32,7 @@ class Board {
   }
 
   handleMove(square, stage) {
+    stage.enableDOMEvents(false);
     if (this.validMove(square, stage)) {
       this.moveCount += 1;
       this.moves[this.moveCount] = [];
@@ -51,8 +52,13 @@ class Board {
           squareToMove.changeDirection(redirect.direction);
         }
 
-        squareToMove.move(xShift, yShift); //move square
-        this.squares[[newX, newY]] = squareToMove; //update board position
+        squareToMove.callback = squareToMove.move.bind(squareToMove, xShift, yShift);
+        squareToMove.container.addEventListener(
+          'tick',
+          squareToMove.callback
+        );
+
+        this.squares[[newX, newY]] = squareToMove;
 
         if (neighbor) {
           squareToMove = neighbor;
@@ -60,10 +66,48 @@ class Board {
           break;
         }
       }
-      this.coordinatesOfLastSquareMoved.push(squareToMove.coordinates());
-      stage.update();
-      this.gameOver(stage);
+
+      this.coordinatesOfLastSquareMoved.push([
+        squareToMove.container.x + xShift,
+        squareToMove.container.y + yShift
+      ]);
+
+      this.animateSquares(stage);
+    } else {
+      stage.enableDOMEvents(true);
     }
+  }
+
+  animateSquares(stage) {
+    let i = 0;
+    const intervalId = setInterval(() => {
+      stage.update();
+      if (i > 18) {
+        clearInterval(intervalId);
+        this.removeEventListeners();
+        this.updateSquares();
+        const gameOver = this.checkGameOver(stage);
+        if (!gameOver) {
+          stage.enableDOMEvents(true);
+        }
+      }
+      i++;
+    }, 5);
+  }
+
+  removeEventListeners() {
+    this.moves[this.moveCount].forEach(square => {
+      square.container.removeEventListener(
+        'tick',
+        square.callback
+      );
+    });
+  }
+
+  updateSquares() {
+    this.moves[this.moveCount].forEach(square => {
+      square.updateMoves();
+    });
   }
 
   validMove(square, stage) {
@@ -93,7 +137,7 @@ class Board {
     return validMove;
   }
 
-  gameOver(stage) {
+  checkGameOver(stage) {
     const squares = this.squares;
     const gameOver = (
       this.goals.every(goal => {
@@ -107,6 +151,8 @@ class Board {
       stage.enableDOMEvents(false);
       this.clearBoard();
     }
+
+    return gameOver;
   }
 
   clearBoard() {
