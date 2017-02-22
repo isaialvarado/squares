@@ -73,7 +73,6 @@ class Board {
       ]);
 
       this.animateSquares(stage);
-      this.checkGameOver(stage);
     } else {
       stage.enableDOMEvents(true);
     }
@@ -87,7 +86,10 @@ class Board {
         clearInterval(intervalId);
         this.removeEventListeners();
         this.updateSquares();
-        stage.enableDOMEvents(true);
+        const gameOver = this.checkGameOver(stage);
+        if (!gameOver) {
+          stage.enableDOMEvents(true);
+        }
       }
       i++;
     }.bind(this, i), 20);
@@ -149,6 +151,8 @@ class Board {
       stage.enableDOMEvents(false);
       this.clearBoard();
     }
+
+    return gameOver;
   }
 
   clearBoard() {
@@ -185,24 +189,17 @@ class Board {
   }
 
   undo() {
-    const board = this;
-    if (board.moveCount > 0) {
-      const squaresToUndo = board.moves[board.moveCount];
+    if (this.moveCount > 0) {
+      const squaresToUndo = this.moves[this.moveCount];
 
-      for (let i = 0; i < squaresToUndo.length; i++) {
-        let square = squaresToUndo[i];
+      squaresToUndo.forEach(square => {
         square.undo();
-        board.squares[square.coordinates()] = square;
-      }
+        this.squares[square.coordinates()] = square;
+      });
 
-      // squaresToUndo.forEach(square => {
-      //   debugger
-      //   square.undo();
-      // });
-
-      delete board.moves[board.moveCount];
-      delete board.squares[board.coordinatesOfLastSquareMoved.pop()];
-      board.moveCount -= 1;
+      delete this.moves[this.moveCount];
+      delete this.squares[this.coordinatesOfLastSquareMoved.pop()];
+      this.moveCount -= 1;
     }
   }
 }

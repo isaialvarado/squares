@@ -549,7 +549,6 @@
 	        this.coordinatesOfLastSquareMoved.push([squareToMove.container.x + xShift, squareToMove.container.y + yShift]);
 	
 	        this.animateSquares(stage);
-	        this.checkGameOver(stage);
 	      } else {
 	        stage.enableDOMEvents(true);
 	      }
@@ -564,7 +563,10 @@
 	          clearInterval(intervalId);
 	          this.removeEventListeners();
 	          this.updateSquares();
-	          stage.enableDOMEvents(true);
+	          var gameOver = this.checkGameOver(stage);
+	          if (!gameOver) {
+	            stage.enableDOMEvents(true);
+	          }
 	        }
 	        i++;
 	      }.bind(this, i), 20);
@@ -624,6 +626,8 @@
 	        stage.enableDOMEvents(false);
 	        this.clearBoard();
 	      }
+	
+	      return gameOver;
 	    }
 	  }, {
 	    key: 'clearBoard',
@@ -658,24 +662,19 @@
 	  }, {
 	    key: 'undo',
 	    value: function undo() {
-	      var board = this;
-	      if (board.moveCount > 0) {
-	        var squaresToUndo = board.moves[board.moveCount];
+	      var _this4 = this;
 	
-	        for (var i = 0; i < squaresToUndo.length; i++) {
-	          var square = squaresToUndo[i];
+	      if (this.moveCount > 0) {
+	        var squaresToUndo = this.moves[this.moveCount];
+	
+	        squaresToUndo.forEach(function (square) {
 	          square.undo();
-	          board.squares[square.coordinates()] = square;
-	        }
+	          _this4.squares[square.coordinates()] = square;
+	        });
 	
-	        // squaresToUndo.forEach(square => {
-	        //   debugger
-	        //   square.undo();
-	        // });
-	
-	        delete board.moves[board.moveCount];
-	        delete board.squares[board.coordinatesOfLastSquareMoved.pop()];
-	        board.moveCount -= 1;
+	        delete this.moves[this.moveCount];
+	        delete this.squares[this.coordinatesOfLastSquareMoved.pop()];
+	        this.moveCount -= 1;
 	      }
 	    }
 	  }]);
