@@ -74,10 +74,17 @@ class MoveableSquare {
     return [this.container.x, this.container.y];
   }
 
-  move(x = this.xShift, y = this.yShift) {
-    this.container.x += x;
-    this.container.y += y;
-    this.moves.push([this.container.x, this.container.y, this.direction]);
+  move(x, y) {
+    this.container.x += x / 8;
+    this.container.y += y / 8;
+  }
+
+  updateMoves() {
+    this.moves.push([
+      this.container.x,
+      this.container.y,
+      this.direction
+    ]);
   }
 
   undo() {
