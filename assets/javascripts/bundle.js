@@ -68,7 +68,6 @@
 	
 	  var board = new _board2.default();
 	  (0, _game.setupGame)(stage, board);
-	  window.board = board;
 	});
 
 /***/ },
@@ -305,8 +304,8 @@
 	  }, {
 	    key: 'move',
 	    value: function move(x, y) {
-	      this.container.x += x / 8;
-	      this.container.y += y / 8;
+	      this.container.x += x / 20;
+	      this.container.y += y / 20;
 	    }
 	  }, {
 	    key: 'updateMoves',
@@ -556,20 +555,22 @@
 	  }, {
 	    key: 'animateSquares',
 	    value: function animateSquares(stage) {
+	      var _this4 = this;
+	
 	      var i = 0;
 	      var intervalId = setInterval(function () {
 	        stage.update();
-	        if (i >= 7) {
+	        if (i > 18) {
 	          clearInterval(intervalId);
-	          this.removeEventListeners();
-	          this.updateSquares();
-	          var gameOver = this.checkGameOver(stage);
+	          _this4.removeEventListeners();
+	          _this4.updateSquares();
+	          var gameOver = _this4.checkGameOver(stage);
 	          if (!gameOver) {
 	            stage.enableDOMEvents(true);
 	          }
 	        }
 	        i++;
-	      }.bind(this, i), 20);
+	      }, 5);
 	    }
 	  }, {
 	    key: 'removeEventListeners',
@@ -662,14 +663,14 @@
 	  }, {
 	    key: 'undo',
 	    value: function undo() {
-	      var _this4 = this;
+	      var _this5 = this;
 	
 	      if (this.moveCount > 0) {
 	        var squaresToUndo = this.moves[this.moveCount];
 	
 	        squaresToUndo.forEach(function (square) {
 	          square.undo();
-	          _this4.squares[square.coordinates()] = square;
+	          _this5.squares[square.coordinates()] = square;
 	        });
 	
 	        delete this.moves[this.moveCount];

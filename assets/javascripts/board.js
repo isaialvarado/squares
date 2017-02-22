@@ -80,9 +80,9 @@ class Board {
 
   animateSquares(stage) {
     let i = 0;
-    const intervalId = setInterval(function() {
+    const intervalId = setInterval(() => {
       stage.update();
-      if (i >= 7) {
+      if (i > 18) {
         clearInterval(intervalId);
         this.removeEventListeners();
         this.updateSquares();
@@ -92,7 +92,7 @@ class Board {
         }
       }
       i++;
-    }.bind(this, i), 20);
+    }, 5);
   }
 
   removeEventListeners() {

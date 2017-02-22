@@ -75,8 +75,8 @@ class MoveableSquare {
   }
 
   move(x, y) {
-    this.container.x += x / 8;
-    this.container.y += y / 8;
+    this.container.x += x / 20;
+    this.container.y += y / 20;
   }
 
   updateMoves() {
